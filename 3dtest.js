@@ -13,6 +13,11 @@ var init = function() {
     // カメラを作成
     var camera = new THREE.PerspectiveCamera(45, 800 / 600, 1, 1000);
 
+    httpObj = new XMLHttpRequest();
+    httpObj.open('GET', "model/box.mqo", false);
+    httpObj.send(null);
+    mqoLoad(httpObj.responseText);
+    return;
     // 箱を作成
     //var geometry = new THREE.BoxBufferGeometry(1, 1, 1);
     //var geometry = new THREE.CircleGeometry(1, 32);
