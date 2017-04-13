@@ -1,0 +1,9 @@
+DirectoryIndex index.html
+
+<Directory "\.git">
+  Deny from all
+</Directory>
+
+<Files ~ "\.gitignore$">
+  Deny from all
+</Files>
