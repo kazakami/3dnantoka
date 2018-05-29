@@ -15,7 +15,9 @@ directionalLight.position.set(100, 100, 100);
 scene.add(directionalLight);
 
 LoadObjMtl("data/body.obj", "data/body.mtl", scene);
+camera.position.x = 10;
 camera.position.z = 10;
+camera.lookAt(0, 0, 0);
 
 let Fiz = function() {
     this.message = 'hoge';
