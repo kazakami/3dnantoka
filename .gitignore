@@ -1,3 +1,5 @@
 *~
-three.js
-three.min.js
+node_modules
+dist
+.vscode
+package-lock.json
