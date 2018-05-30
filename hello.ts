@@ -14,7 +14,7 @@ let directionalLight: Light = new DirectionalLight(0xffffff);
 directionalLight.position.set(100, 100, 100);
 scene.add(directionalLight);
 
-LoadObjMtl("data/body.obj", "data/body.mtl", scene);
+LoadObjMtl("data/body1.obj", "data/body1.mtl", scene);
 camera.position.x = 10;
 camera.position.z = 10;
 camera.lookAt(0, 0, 0);
