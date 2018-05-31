@@ -40,11 +40,24 @@ g.add(text, 'head', ['head', 'head1']);
 g.add(text, 'body', ['body', 'body1']);
 
 let modelAdded = false;
+let beforeHead = 'head';
+let beforeBody = 'body';
 
 let animate = () => {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
-    if (!modelAdded) {
+    if (modelAdded) {
+        if (beforeHead !== text.head) {
+            scene.remove(models[beforeHead]);
+            scene.add(models[text.head]);
+            beforeHead = text.head;
+        }
+        if (beforeBody !== text.body) {
+            scene.remove(models[beforeBody]);
+            scene.add(models[text.body]);
+            beforeBody = text.body;
+        }
+    } else {
         let isNull = false;
         Object.keys(models).forEach(key => {
             if (models[key] === null) {
