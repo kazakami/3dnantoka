@@ -26,38 +26,41 @@ camera.lookAt(0, 0, 0);
 
 
 class Fiz {
-    message;
+    head;
+    body;
     constructor() {
-        this.message = 'hoge';
+        this.head = 'head';
+        this.body = 'body';
     }
 }
 
 let text = new Fiz();
 let g = new dat.GUI();
-g.add(text, 'message');
+g.add(text, 'head', ['head', 'head1']);
+g.add(text, 'body', ['body', 'body1']);
 
+let modelAdded = false;
 
 let animate = () => {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
-    let isNull = false;
-    Object.keys(models).forEach(key => {
-        if (models[key] === null) {
-            //console.log();
-            isNull = true;
+    if (!modelAdded) {
+        let isNull = false;
+        Object.keys(models).forEach(key => {
+            if (models[key] === null) {
+                //console.log();
+                isNull = true;
+            }
+        });
+        if (!isNull) {
+            console.log("model added");
+            models["head"].position.y = 5;
+            models["head1"].position.y = 5;
+            scene.add(models["head"]);
+            scene.add(models["body"]);
+            modelAdded = true;
         }
-    });
-    if (!isNull) {
-        models["head"].position.y = 5;
-        models["head1"].position.y = 5;
-        scene.add(models["head"]);
-        scene.add(models["body"]);
-        requestAnimationFrame(animate2);
     }
-};
-let animate2 = () => {
-    requestAnimationFrame(animate2);
-    renderer.render(scene, camera);
 };
 animate();
 
