@@ -1,6 +1,6 @@
 import "imports-loader?THREE=three!three/examples/js/loaders/OBJLoader.js";
 import "imports-loader?THREE=three!three/examples/js/loaders/MTLLoader.js";
-import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, JSONLoader, MeshFaceMaterial, Mesh, OBJLoader, MTLLoader, LoadingManager, Group } from "three";
+import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, JSONLoader, MeshFaceMaterial, Mesh, OBJLoader, MTLLoader, LoadingManager, Group, AmbientLight } from "three";
 import * as dat from 'dat.gui/build/dat.gui.js';
 
 let renderer: WebGLRenderer = new WebGLRenderer();
@@ -14,15 +14,15 @@ let directionalLight: Light = new DirectionalLight(0xffffff);
 directionalLight.position.set(100, 100, 100);
 scene.add(directionalLight);
 
+let ambientLight: Light = new AmbientLight(0x888888);
+scene.add(ambientLight);
+
 let models: { [key: string]: Group; } = {};
 
 LoadObjMtl("data/body1.obj", "data/body1.mtl", "body1");
 LoadObjMtl("data/head1.obj", "data/head1.mtl", "head1");
 LoadObjMtl("data/body.obj", "data/body.mtl", "body");
 LoadObjMtl("data/head.obj", "data/head.mtl", "head");
-camera.position.x = 10;
-camera.position.z = 10;
-camera.lookAt(0, 0, 0);
 
 
 class Fiz {
@@ -42,6 +42,7 @@ g.add(text, 'body', ['body', 'body1']);
 let modelAdded = false;
 let beforeHead = 'head';
 let beforeBody = 'body';
+let frame = 0;
 
 let animate = () => {
     requestAnimationFrame(animate);
@@ -57,6 +58,10 @@ let animate = () => {
             scene.add(models[text.body]);
             beforeBody = text.body;
         }
+        frame++;
+        camera.position.x = 10*Math.sin(frame/30.0);
+        camera.position.z = 10*Math.cos(frame/30.0);
+        camera.lookAt(0, 0, 0);
     } else {
         let isNull = false;
         Object.keys(models).forEach(key => {
