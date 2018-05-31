@@ -1,6 +1,6 @@
 import "imports-loader?THREE=three!three/examples/js/loaders/OBJLoader.js";
 import "imports-loader?THREE=three!three/examples/js/loaders/MTLLoader.js";
-import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, JSONLoader, MeshFaceMaterial, Mesh, OBJLoader, MTLLoader, LoadingManager } from "three";
+import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, JSONLoader, MeshFaceMaterial, Mesh, OBJLoader, MTLLoader, LoadingManager, Group } from "three";
 import * as dat from 'dat.gui/build/dat.gui.js';
 
 let renderer: WebGLRenderer = new WebGLRenderer();
@@ -14,13 +14,22 @@ let directionalLight: Light = new DirectionalLight(0xffffff);
 directionalLight.position.set(100, 100, 100);
 scene.add(directionalLight);
 
-LoadObjMtl("data/body1.obj", "data/body1.mtl", scene);
+let models: { [key: string]: Group; } = {};
+
+LoadObjMtl("data/body1.obj", "data/body1.mtl", "body1");
+LoadObjMtl("data/head1.obj", "data/head1.mtl", "head1");
+LoadObjMtl("data/body.obj", "data/body.mtl", "body");
+LoadObjMtl("data/head.obj", "data/head.mtl", "head");
 camera.position.x = 10;
 camera.position.z = 10;
 camera.lookAt(0, 0, 0);
 
-let Fiz = function() {
-    this.message = 'hoge';
+
+class Fiz {
+    message;
+    constructor() {
+        this.message = 'hoge';
+    }
 }
 
 let text = new Fiz();
@@ -31,10 +40,30 @@ g.add(text, 'message');
 let animate = () => {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
-}
+    let isNull = false;
+    Object.keys(models).forEach(key => {
+        if (models[key] === null) {
+            //console.log();
+            isNull = true;
+        }
+    });
+    if (!isNull) {
+        models["head"].position.y = 5;
+        models["head1"].position.y = 5;
+        scene.add(models["head"]);
+        scene.add(models["body"]);
+        requestAnimationFrame(animate2);
+    }
+};
+let animate2 = () => {
+    requestAnimationFrame(animate2);
+    renderer.render(scene, camera);
+};
 animate();
 
-function LoadObjMtl(obj_filename: string, mtl_filename: string, scene: Scene): void {
+function LoadObjMtl(obj_filename: string, mtl_filename: string, name: string): void {
+    models[name] = null;
+    console.log(name + " has started loading");
     let loadingManager = new LoadingManager();
     let objLoader = new OBJLoader(loadingManager);
     let mtlLoader = new MTLLoader(loadingManager);
@@ -55,7 +84,8 @@ function LoadObjMtl(obj_filename: string, mtl_filename: string, scene: Scene): v
             objLoader.setMaterials(mtl);
             objLoader.load(obj_filename,
                 grp => {
-                    scene.add(grp);
+                    console.log(name + " is loaded.")
+                    models[name] = grp;
                 }
             );
         }
