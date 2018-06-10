@@ -1,7 +1,10 @@
 import "imports-loader?THREE=three!three/examples/js/loaders/OBJLoader.js";
 import "imports-loader?THREE=three!three/examples/js/loaders/MTLLoader.js";
-import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, JSONLoader, MeshFaceMaterial, Mesh, OBJLoader, MTLLoader, LoadingManager, Group, AmbientLight } from "three";
+import "imports-loader?THREE=three!three/examples/js/exporters/GLTFExporter.js";
+//import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, JSONLoader, MeshFaceMaterial, Mesh, OBJLoader, MTLLoader, LoadingManager, Group, AmbientLight } from "three";
+import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, JSONLoader, MeshFaceMaterial, Mesh, OBJLoader, MTLLoader, LoadingManager, Group, AmbientLight, GLTFExporter } from "three";
 import * as dat from 'dat.gui/build/dat.gui.js';
+//import { GLTFExporter } from "./GLTFExporter";
 
 let renderer: WebGLRenderer = new WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -9,6 +12,7 @@ let canvas: HTMLCanvasElement = renderer.domElement;
 let scene: Scene = new Scene();
 let camera: Camera = new PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 document.body.appendChild(canvas);
+
 
 let directionalLight: Light = new DirectionalLight(0xffffff);
 directionalLight.position.set(100, 100, 100);
@@ -19,11 +23,33 @@ scene.add(ambientLight);
 
 let models: { [key: string]: Group; } = {};
 
+let exporter = new GLTFExporter();
+
 LoadObjMtl("data/body1.obj", "data/body1.mtl", "body1");
 LoadObjMtl("data/head1.obj", "data/head1.mtl", "head1");
 LoadObjMtl("data/body.obj", "data/body.mtl", "body");
 LoadObjMtl("data/head.obj", "data/head.mtl", "head");
 
+let link = document.createElement( 'a' );
+link.style.display = 'none';
+document.body.appendChild( link );
+function saveString(text, filename) {
+    let blob = new Blob([text], {type: 'text/plain'});
+    //console.log(blob);
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+}
+function buttonClick() {
+    exporter.parse(scene, (result) => {
+        //console.log("str: " + JSON.stringify(result));
+        saveString(JSON.stringify(result), "output.gltf");
+    }, null);
+}
+let button = document.createElement('button');
+button.onclick = buttonClick;
+button.innerText = "save";
+document.body.appendChild(button);
 
 class Fiz {
     head;
@@ -84,7 +110,7 @@ animate();
 
 function LoadObjMtl(obj_filename: string, mtl_filename: string, name: string): void {
     models[name] = null;
-    console.log(name + " has started loading");
+    //console.log(name + " has started loading");
     let loadingManager = new LoadingManager();
     let objLoader = new OBJLoader(loadingManager);
     let mtlLoader = new MTLLoader(loadingManager);
@@ -105,7 +131,7 @@ function LoadObjMtl(obj_filename: string, mtl_filename: string, name: string): v
             objLoader.setMaterials(mtl);
             objLoader.load(obj_filename,
                 grp => {
-                    console.log(name + " is loaded.")
+                    //console.log(name + " is loaded.")
                     models[name] = grp;
                 }
             );
