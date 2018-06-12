@@ -7,7 +7,7 @@ import * as dat from 'dat.gui/build/dat.gui.js';
 //import { GLTFExporter } from "./GLTFExporter";
 
 let renderer: WebGLRenderer = new WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth - 50, window.innerHeight - 100);
 let canvas: HTMLCanvasElement = renderer.domElement;
 let scene: Scene = new Scene();
 let camera: Camera = new PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
