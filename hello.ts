@@ -40,11 +40,24 @@ function saveString(text, filename) {
     link.download = filename;
     link.click();
 }
+function saveBin(bin, filename) {
+    let blob = new Blob([bin], {type: 'application/glb'});
+    //console.log(blob);
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+}
 function buttonClick() {
     exporter.parse(scene, (result) => {
         //console.log("str: " + JSON.stringify(result));
-        saveString(JSON.stringify(result), "output.gltf");
-    }, null);
+        if (text.bin) {
+            //console.log("bin: " + result);
+            saveBin(result, "output.glb");
+        } else {
+            //console.log("str: " + result);
+            saveString(JSON.stringify(result), "output.gltf");
+        }
+    }, {binary: text.bin});
 }
 let button = document.createElement('button');
 button.onclick = buttonClick;
@@ -54,9 +67,11 @@ document.body.appendChild(button);
 class Fiz {
     head;
     body;
+    bin;
     constructor() {
         this.head = 'head';
         this.body = 'body';
+        this.bin = false;
     }
 }
 
@@ -64,6 +79,7 @@ let text = new Fiz();
 let g = new dat.GUI();
 g.add(text, 'head', ['head', 'head1']);
 g.add(text, 'body', ['body', 'body1']);
+g.add(text, 'bin');
 
 let modelAdded = false;
 let beforeHead = 'head';
