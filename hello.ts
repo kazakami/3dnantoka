@@ -1,10 +1,9 @@
 import "imports-loader?THREE=three!three/examples/js/loaders/OBJLoader.js";
 import "imports-loader?THREE=three!three/examples/js/loaders/MTLLoader.js";
 import "imports-loader?THREE=three!three/examples/js/exporters/GLTFExporter.js";
-//import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, JSONLoader, MeshFaceMaterial, Mesh, OBJLoader, MTLLoader, LoadingManager, Group, AmbientLight } from "three";
-import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, JSONLoader, MeshFaceMaterial, Mesh, OBJLoader, MTLLoader, LoadingManager, Group, AmbientLight, GLTFExporter } from "three";
+//import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, OBJLoader, MTLLoader, LoadingManager, Group, AmbientLight} from "three";
+import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, OBJLoader, MTLLoader, LoadingManager, Group, AmbientLight, GLTFExporter} from "three";
 import * as dat from 'dat.gui/build/dat.gui.js';
-//import { GLTFExporter } from "./GLTFExporter";
 
 let renderer: WebGLRenderer = new WebGLRenderer();
 renderer.setSize(window.innerWidth - 50, window.innerHeight - 100);
