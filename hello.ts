@@ -1,9 +1,9 @@
 import "imports-loader?THREE=three!three/examples/js/loaders/OBJLoader.js";
 import "imports-loader?THREE=three!three/examples/js/loaders/MTLLoader.js";
 import "imports-loader?THREE=three!three/examples/js/exporters/GLTFExporter.js";
-//import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, OBJLoader, MTLLoader, LoadingManager, Group, AmbientLight} from "three";
 import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, OBJLoader, MTLLoader, LoadingManager, Group, AmbientLight, GLTFExporter} from "three";
 import * as dat from 'dat.gui/build/dat.gui.js';
+
 
 let renderer: WebGLRenderer = new WebGLRenderer();
 renderer.setSize(window.innerWidth - 50, window.innerHeight - 100);
@@ -22,7 +22,7 @@ scene.add(ambientLight);
 
 let models: { [key: string]: Group; } = {};
 
-let exporter = new GLTFExporter();
+let exporter: GLTFExporter = new GLTFExporter();
 
 LoadObjMtl("data/body1.obj", "data/body1.mtl", "body1");
 LoadObjMtl("data/head1.obj", "data/head1.mtl", "head1");
