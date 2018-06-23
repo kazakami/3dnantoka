@@ -2,7 +2,8 @@ import "imports-loader?THREE=three!three/examples/js/loaders/OBJLoader.js";
 import "imports-loader?THREE=three!three/examples/js/loaders/MTLLoader.js";
 import "imports-loader?THREE=three!three/examples/js/exporters/GLTFExporter.js";
 import { WebGLRenderer, Scene, Camera, PerspectiveCamera, Light, DirectionalLight, OBJLoader, MTLLoader, LoadingManager, Group, AmbientLight, GLTFExporter} from "three";
-import * as dat from 'dat.gui/build/dat.gui.js';
+//import * as dat from 'dat.gui/build/dat.gui.js';
+import { GUI } from "dat.gui";
 
 
 let renderer: WebGLRenderer = new WebGLRenderer();
@@ -64,9 +65,9 @@ button.innerText = "save";
 document.body.appendChild(button);
 
 class Fiz {
-    head;
-    body;
-    bin;
+    head: string;
+    body: string;
+    bin: boolean;
     constructor() {
         this.head = 'head';
         this.body = 'body';
@@ -75,7 +76,7 @@ class Fiz {
 }
 
 let text = new Fiz();
-let g = new dat.GUI();
+let g = new GUI();
 g.add(text, 'head', ['head', 'head1']);
 g.add(text, 'body', ['body', 'body1']);
 g.add(text, 'bin');
